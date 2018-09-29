@@ -36,20 +36,15 @@ class Interpreter():
 
     return argument
 
-  def run_code(self, what_to_excute):
+  def execute(self, what_to_excute):
     instructions = what_to_excute["instructions"]
     numbers = what_to_excute["numbers"]
     for each_step in instructions:
       instruction, argument = each_step
       argument = self.parse_argument(instruction, argument, what_to_excute)
+      bytecode_method = getattr(self, instruction)
 
-      if instruction == "LOAD_VALUE":
-        self.LOAD_VALUE(argument)
-      elif instruction == "ADD_TWO_VALUES":
-        self.ADD_TWO_VALUES()
-      elif instruction == "PRINT_ANSWER":
-        self.PRINT_ANSWER()
-      elif instruction == "STORE_NAME":
-        self.STORE_NAME(argument)
-      elif instruction == "LOAD_NAME":
-        self.LOAD_NAME(argument)
+      if argument is None:
+        bytecode_method()
+      else:
+        bytecode_method(argument)
