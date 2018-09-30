@@ -44,3 +44,25 @@ class VirtualMachine(object):
 
   def run_frame(self):
     pass
+
+  # Data stack manipulation
+  def top(self):
+    return self.frame.stack[-1]
+
+  def pop(self):
+    return self.frame.stack.pop()
+
+  def push(self, *vals):
+    self.frame.stack.extend(vals)
+
+  def popn(self, n):
+    """
+    Pop a number of values from the value stack.
+    A list of `n` values is returned, the deepest value first.
+    """
+    if n:
+      ret = self.frame.stack[-n:]
+      self.frame.stack[-n:] = []
+      return ret
+    else:
+      return []
